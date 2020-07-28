@@ -8,34 +8,26 @@ Set<T>::Set()
 template<typename T>
 Set<T>::Set(const size_t nsize)
 {
-	try
-	{
-		if (nsize < 0) throw -3;
-		size = nsize;
-		array = new T[size];
-	}
-	catch (int thr)
-	{
-		std::cout << "Error: " << thr <<"! You can't create a Set with "<<nsize<< " elements! Created a Set for one element.";
-		size = 1;
-		array = new T[1];
-	}
+	//so far this version
+	size = (nsize < 0) ? 1 : nsize;
+	array = (nsize==0)? nullptr : new T[size];
 }
 template<typename T>
 Set<T>::~Set()
 {
 	delete[] array;
+	array = NULL;
 }
 template<typename T>
-T* Set<T>::insert(const T& value)
+const T* Set<T>::insert(const T& value)
 {
-	T* r = find_it(value);
-	if (r != NULL) return NULL;//the element already exists.
+	const T* r = find_it(value);
+	if (r != nullptr) return nullptr;//the element already exists.
 	busy++;
 	T* array2 = array;
 	if (size == busy)
 	{
-		size *= 2;
+		size = (size == 0) ? 2 : size*2;
 		array2 = new T[size];
 	}
 	size_t i=busy-1;
@@ -56,47 +48,40 @@ Set<T>::Set(const Set& value)
 	size = value.size;
 	busy = value.busy;
 	array = new T[size];
-	for (int i = 0; i < busy; i++)
-	{
-		array[i] = value.array[i];
-	}
+	std::copy(value.array, value.array + busy, array);
 }
 template<typename T>
 Set<T>& Set<T>::operator=(const Set& value)
 {
-	if (this != &value)
-	{
-		size = value.size;
-		busy = value.busy;
-		delete[] array;
-		array = new T[size];
-		for (int i = 0; i < busy; i++)
-		{
-			array[i] = value.array[i];
-		}
-	}
+	if (this == &value) return *this;
+	size = value.size;
+	busy = value.busy;
+	delete[] array;
+	array = new T[size];
+	std::copy(value.array, value.array + busy, array);
 	return *this;
 }
 template<typename T>
 bool Set<T>::find(const T& value) const
 {
-	for (int i = 0; i < busy; i++)
-	{
-		if (array[i] == value) return true;
-	}
-	return false;
+	if (find_it(value) != nullptr) return true;
+	else return false;
 }
 template<typename T>
-T* Set<T>::find_it(const T& value) const
+const T* Set<T>::find_it(const T& value) const
 {
-	for (size_t i = 0; i < busy; i++)
+	if (busy != 0)
 	{
-		if (array[i] == value)
+		int left = 0, right = busy, mid;
+		while (left <= right)
 		{
-			return &array[i];
+			mid = left + (right - left) / 2;
+			if (value < array[mid]) right = mid - 1;
+			else if (value > array[mid]) left = mid + 1;
+			else return (array + mid);
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 template<typename T>
 size_t Set<T>::set_size() const
@@ -109,44 +94,23 @@ void Set<T>::clear()
 	size = 0;
 	busy = 0;
 	delete[] array;
-	array = NULL;
+	array = nullptr;
 }
 template<typename T>
-int Set<T>::erase(const T& value)
-{	
-	int rez = 0;
-	try
-	{
-		if(busy==0) throw -2;
-		else if (busy != 1)
-		{
-			int i = 0;
-			bool flag = false;
-			for (i; i < busy; i++)
-			{
-				if (array[i] == value)
-				{
-					flag = true;
-					rez = i;
-				}
-				if (flag && i != busy - 1)
-				{
-					array[i] = array[i + 1];
-				}
-			}
-			if (!flag) return -1;
-		}
-		else 
-		{
-			if (array[0] != value) return -1;
-		}
-	}
-	catch (int thr)
-	{
-		return thr;
-	}
-	busy--;
-	return rez;
+const T* Set<T>::erase(const T* it)
+{
+	//Will be soon
+	//const T* r = find_it(*it);
+	//if (r == nullptr) return nullptr;
+	//if(busy==1) 
+	//if(r==array+busy)
+	//ссылается на след элемент
+	//return r;
+}
+template<typename T>
+const T* Set<T>::set_begin() const
+{
+	return array;
 }
 template<typename T>
 std::ostream& operator<< (std::ostream& out, const Set<T>& value)
@@ -166,6 +130,5 @@ std::ostream& operator<< (std::ostream& out, const Set<T>& value)
 }
 int main()
 {
-
 	return 0;
 }
