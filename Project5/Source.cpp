@@ -8,9 +8,12 @@ Set<T>::Set()
 template<typename T>
 Set<T>::Set(const size_t nsize)
 {
-	//so far this version
-	size = (nsize < 0) ? 1 : nsize;
-	array = (nsize==0)? nullptr : new T[size];
+	if (nsize == 0) array = nullptr;
+	else
+	{
+		array = new T[nsize];
+		size = nsize;
+	}
 }
 template<typename T>
 Set<T>::~Set()
@@ -100,12 +103,6 @@ template<typename T>
 const T* Set<T>::erase(const T* it)
 {
 	//Will be soon
-	//const T* r = find_it(*it);
-	//if (r == nullptr) return nullptr;
-	//if(busy==1) 
-	//if(r==array+busy)
-	//ссылается на след элемент
-	//return r;
 }
 template<typename T>
 const T* Set<T>::set_begin() const
@@ -130,5 +127,13 @@ std::ostream& operator<< (std::ostream& out, const Set<T>& value)
 }
 int main()
 {
+	Set<int> a(5);
+	a.insert(1);
+	a.insert(2);
+	a.insert(3);
+	a.insert(4);
+	a.insert(5);
+	const int* t=a.erase(a.set_begin()+1);
+	std::cout << a;
 	return 0;
 }
