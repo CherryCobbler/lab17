@@ -127,13 +127,5 @@ std::ostream& operator<< (std::ostream& out, const Set<T>& value)
 }
 int main()
 {
-	Set<int> a(5);
-	a.insert(1);
-	a.insert(2);
-	a.insert(3);
-	a.insert(4);
-	a.insert(5);
-	const int* t=a.erase(a.set_begin()+1);
-	std::cout << a;
 	return 0;
 }
