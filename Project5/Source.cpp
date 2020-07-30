@@ -19,13 +19,13 @@ template<typename T>
 Set<T>::~Set()
 {
 	delete[] array;
-	array = NULL;
+	array = nullptr;
 }
 template<typename T>
 const T* Set<T>::insert(const T& value)
 {
 	const T* r = find_it(value);
-	if (r != nullptr) return nullptr;//the element already exists.
+	if (r != nullptr) return r;//the element already exists.
 	busy++;
 	T* array2 = array;
 	if (size == busy)
@@ -124,8 +124,4 @@ std::ostream& operator<< (std::ostream& out, const Set<T>& value)
 		}
 	}
 	return out;
-}
-int main()
-{
-	return 0;
 }

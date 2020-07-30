@@ -7,7 +7,7 @@ template <typename T>
 class Set {
 private:
 	size_t size=0;
-	size_t busy=0;//how much space is used
+	size_t busy=0;
 	T* array;
 public:
 	Set();
