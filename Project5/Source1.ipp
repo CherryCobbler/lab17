@@ -19,7 +19,7 @@ template<typename T>
 const T* Set<T>::insert(const T& value)
 {
 	const T* r = find_it(value);
-	if (r != nullptr) return r;//the element already exists.
+	if (r != nullptr) return r;
 	if (array == nullptr)
 	{
 		array = new T[1];
@@ -101,7 +101,20 @@ void Set<T>::clear()
 template<typename T>
 const T* Set<T>::erase(const T* it)
 {
-	//Will be soon
+	const T* r = find_it(*it); 
+	if (r == nullptr) return r;
+	size_t i=0;
+	T* array2 = new T[capasity-1];
+	for (i; i < size && &array[i] != it; i++)
+	{
+		array2[i] = array[i];
+	}
+	std::copy(array + i+1, array + size, array2 + i);
+	delete[] array;
+	array = array2;
+	size--;
+	capasity--;
+	return (r + 1);
 }
 template<typename T>
 const T* Set<T>::set_begin() const

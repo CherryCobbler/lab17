@@ -1,6 +1,6 @@
 #ifndef HEADER_H
 #define HEADER_H
-//Task: implement SET on an array and methods: CC, operator=, insert, erase(throws an exception if the set is empty),
+//Task: implement SET on an array and methods: CC, operator=, insert, erase,
 //size, operator<<, clear, bool find (on the instructions)
 //no UnitTests yet
 #pragma once
