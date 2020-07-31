@@ -1,3 +1,4 @@
+#include "Header.h"
 #ifdef HEADER_H
 template<typename T>
 Set<T>::Set(const size_t ncapasity)
@@ -19,7 +20,8 @@ template<typename T>
 const T* Set<T>::insert(const T& value)
 {
 	const T* r = find_it(value);
-	if (r != nullptr) return r;
+	if (r != nullptr) return (array+capasity+1);//I think the returned values in two different situations should be different 
+	//and if nullptr doesn't fit, then let it be end
 	if (array == nullptr)
 	{
 		array = new T[1];

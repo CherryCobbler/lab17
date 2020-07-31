@@ -1,3 +1,18 @@
 ﻿  pch.cpp
   UnitTest1.cpp
+C:\Users\ansem\source\repos\lab17\lab17\Project5\Source1.ipp(78,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\ansem\source\repos\lab17\lab17\Project5\Source1.ipp(75): message : во время компиляции функции-члена класс шаблон "const T *Set<T>::find_it(const T &) const"
+          with
+          [
+              T=int
+          ]
+C:\Users\ansem\source\repos\lab17\lab17\Project5\Source1.ipp(22): message : выполняется компиляция ссылки на экземпляр шаблон функции "const T *Set<T>::find_it(const T &) const"
+          with
+          [
+              T=int
+          ]
+C:\Users\ansem\source\repos\lab17\lab17\Project5\Source1.ipp(50): message : во время компиляции функции-члена класс шаблон "Set<int>::Set(const Set<int> &)"
+C:\Users\ansem\source\repos\lab17\lab17\UnitTest1\UnitTest1.cpp(24): message : выполняется компиляция ссылки на экземпляр шаблон функции "Set<int>::Set(const Set<int> &)"
+C:\Users\ansem\source\repos\lab17\lab17\UnitTest1\UnitTest1.cpp(17): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "Set<int>"
+     Создается библиотека C:\Users\ansem\source\repos\lab17\lab17\x64\Debug\UnitTest1.lib и объект C:\Users\ansem\source\repos\lab17\lab17\x64\Debug\UnitTest1.exp
   UnitTest1.vcxproj -> C:\Users\ansem\source\repos\lab17\lab17\x64\Debug\UnitTest1.dll
