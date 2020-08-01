@@ -4,6 +4,7 @@
 //size, operator<<, clear, bool find (on the instructions)
 #pragma once
 #include <iostream>
+#include <cmath>
 template <typename T>
 class Set {
 private:
