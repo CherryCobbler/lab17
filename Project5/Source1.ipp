@@ -88,7 +88,12 @@ const T* Set<T>::find_it(const T& value) const
 	return nullptr;
 }
 template<typename T>
-size_t Set<T>::set_size() const
+size_t Set<T>::set_capasity() const
+{
+	return capasity;
+}
+template<typename T>
+inline size_t Set<T>::set_size() const
 {
 	return size;
 }

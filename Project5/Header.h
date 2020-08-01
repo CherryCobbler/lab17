@@ -20,6 +20,7 @@ public:
 	friend std::ostream& operator<< (std::ostream& out, const Set<T>& value);
 	bool find(const T& value) const;//needed for a task
 	const T* find_it(const T& value) const;//needed for other functions
+	size_t set_capasity() const;
 	size_t set_size() const;
 	void clear();
 	const T* erase(const T* it);
