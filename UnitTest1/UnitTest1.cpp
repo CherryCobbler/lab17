@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../Project5/Header.h"
-//tests version 1.1
+//tests version 1.2
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest1
@@ -83,7 +83,25 @@ namespace UnitTest1
 		}
 		TEST_METHOD(TestMethodErase)
 		{
-
+			//version 1.0
+			Set<int> a; Set<char> b;
+			bool iflag, cflag;
+			for (int i = 0; i < 128; i++)
+			{
+				a.insert(i);
+				b.insert(i);
+			}
+			const int* istart; const char* cstart;
+			for (int i = 0; i < 128; i++)
+			{
+				istart = a.set_begin();
+				a.erase(istart);
+				Assert::AreEqual(false, a.find(i));
+				
+				cstart = b.set_begin();
+				b.erase(cstart);
+				Assert::AreEqual(false, b.find(i));
+			}
 		}
 		TEST_METHOD(TestMethodSet_Capasity)
 		{
@@ -154,7 +172,7 @@ namespace UnitTest1
 
 			a1 = a;
 			b1 = b;
-			
+
 			Assert::AreEqual(a.set_capasity(), a1.set_capasity());
 			Assert::AreEqual(b.set_capasity(), b1.set_capasity());
 
@@ -164,18 +182,34 @@ namespace UnitTest1
 			const int* iflag1; const char* cflag1;
 			const int* iflag2; const char* cflag2;
 			iflag1 = a.set_begin();
-			iflag2= a1.set_begin();
-			cflag1= b.set_begin();
-			cflag2= b1.set_begin();
+			iflag2 = a1.set_begin();
+			cflag1 = b.set_begin();
+			cflag2 = b1.set_begin();
 			for (int i = 0; i < 128; i++)
 			{
-				Assert::AreEqual(*(iflag1+i), *(iflag2+i));
-				Assert::AreEqual(*(cflag1+i), *(cflag2+i));
+				Assert::AreEqual(*(iflag1 + i), *(iflag2 + i));
+				Assert::AreEqual(*(cflag1 + i), *(cflag2 + i));
 			}
 		}
-		TEST_METHOD(TestMethodOutOperator)
+		TEST_METHOD(TestMethodFind)
 		{
+			Set<int> a1; Set<char> b1;
+			bool ifflag; bool cfflag;
+			for (int i = 0; i < 127; i++)//
+			{
+				a1.insert(i);
+				ifflag = a1.find(i);
+				Assert::AreEqual(true, ifflag);
+				ifflag = a1.find(i + 1);
+				Assert::AreEqual(false, ifflag);
 
+				b1.insert(i);
+				cfflag = a1.find(i);
+				Assert::AreEqual(true, cfflag);
+				cfflag = a1.find(i + 1);
+				Assert::AreEqual(false, cfflag);
+				
+			}
 		}
 	};
 }

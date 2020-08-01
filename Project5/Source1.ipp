@@ -121,7 +121,7 @@ const T* Set<T>::erase(const T* it)
 	array = array2;
 	size--;
 	capasity--;
-	return (r + 1);
+	return (array+i+1);
 }
 template<typename T>
 const T* Set<T>::set_begin() const
