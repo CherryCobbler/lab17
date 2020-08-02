@@ -9,7 +9,7 @@ namespace UnitTest1
 	TEST_CLASS(UnitTest1)
 	{
 	public:
-		TEST_METHOD(TestMethod—onstructorAND—onstructorCopy)
+		TEST_METHOD(TestMethodConstructorANDConstructorCopy)
 		{
 			/*To be honest, I don't really understand how to test the constructor yet, 
 			so far I only thought of creating possible options and, accordingly, 

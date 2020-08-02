@@ -1,8 +1,7 @@
 #ifndef HEADER_H
 #define HEADER_H
-//Task: implement SET on an array and methods: CC, operator=, insert, erase,
+//TODO: implement SET on an array and methods: CC, operator=, insert, erase,
 //size, operator<<, clear, bool find (on the instructions)
-#pragma once
 #include <iostream>
 #include <cmath>
 template <typename T>
