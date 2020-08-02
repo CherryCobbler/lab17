@@ -144,23 +144,4 @@ std::ostream& operator<< (std::ostream& out, const Set<T>& value)
 	}
 	return out;
 }
-//When I finish sketching the point and finish tracing it, 
-//I'll put it all in different files and everything will be beautiful. Honestly.
-struct point {
-	int x = 0;
-	int y = 0;
-	int z = 0;
-	std::ostream& operator<<(std::ostream& out)
-	{
-		out << "(" << x << ";" << y << ";" << z << ")";
-		return out;
-	}
-	bool operator<(const point& p) const
-	{
-		if (sqrt(x * x + y * y + z * z) < sqrt(p.x * p.x + p.y * p.y + p.z * p.z)) return true;
-		else return false;
-	}
-};
-
-
 #endif 

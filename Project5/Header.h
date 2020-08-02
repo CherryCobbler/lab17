@@ -28,7 +28,8 @@ public:
 };
 
 
-#include "Source1.ipp"
+#include "Set.ipp"
+#include "Point.ipp"
 #endif
 
 
