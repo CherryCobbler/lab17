@@ -17,15 +17,14 @@ Set<T>::~Set()
 	array = nullptr;
 }
 template<typename T>
-const T* Set<T>::insert(const T& value)
+inline std::pair<const T*, bool> Set<T>::insert(const T& value)
 {
 	const T* r = find_it(value);
-	if (r != nullptr) return (array+capasity+1);//I think the returned values in two different situations should be different 
-	//and if nullptr doesn't fit, then let it be end
+	if (r != array+capasity+1) return { r, false };
 	if (array == nullptr)
 	{
-		array = new T[1];
-		capasity = 1;
+		array = new T[2];
+		capasity = 2;
 	}
 	size++;
 	T* array2 = array;
@@ -40,11 +39,11 @@ const T* Set<T>::insert(const T& value)
 		array2[i] = array[i - 1];
 	}
 	array2[i] = value;
-	if (array == array2) return array2 + i;
+	if (array == array2) return { (array2 + i), true };
 	std::copy(array, array + i, array2);
 	delete[] array;
 	array = array2;
-	return array + i;
+	return { (array + i), true };
 }
 template<typename T>
 Set<T>::Set(const Set& value)
@@ -85,7 +84,7 @@ const T* Set<T>::find_it(const T& value) const
 			else return (array + mid);
 		}
 	}
-	return nullptr;
+	return (array+capasity+1);
 }
 template<typename T>
 size_t Set<T>::set_capasity() const

@@ -4,6 +4,7 @@
 //size, operator<<, clear, bool find (on the instructions)
 #include <iostream>
 #include <cmath>
+#include <utility>
 template <typename T>
 class Set {
 private:
@@ -13,13 +14,13 @@ private:
 public:
 	Set(const size_t ncapasity = 1);
 	~Set();
-	const T* insert(const T& value);
+	std::pair<const T*, bool> insert(const T& value);
 	Set(const Set& value);
 	Set& operator= (const Set& value);
 	template <typename T>
 	friend std::ostream& operator<< (std::ostream& out, const Set<T>& value);
 	bool find(const T& value) const;//needed for a task
-	const T* find_it(const T& value) const;//needed for other functions
+	const T* find_it(const T& value) const;
 	size_t set_capasity() const;
 	size_t set_size() const;
 	void clear();
