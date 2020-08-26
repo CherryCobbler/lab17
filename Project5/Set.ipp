@@ -17,7 +17,7 @@ Set<T>::~Set()
 	array = nullptr;
 }
 template<typename T>
-inline std::pair<const T*, bool> Set<T>::insert(const T& value)
+inline std::pair<const T*, bool> Set<T>::insert(const T& value) 
 {
 	const T* r = find_it(value);
 	if (r != array+capasity+1) return { r, false };
@@ -120,7 +120,7 @@ const T* Set<T>::erase(const T* it)
 	array = array2;
 	size--;
 	capasity--;
-	return (array+i+1);
+	return (array+i);
 }
 template<typename T>
 const T* Set<T>::set_begin() const

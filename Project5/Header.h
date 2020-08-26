@@ -31,6 +31,7 @@ public:
 
 #include "Set.ipp"
 #include "Point.ipp"
+
 #endif
 
 
