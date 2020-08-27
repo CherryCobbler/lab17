@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../Project5/Header.h"
-//tests version 1.2
+#include <set> 
+//tests version 2.1
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest1
@@ -9,206 +10,184 @@ namespace UnitTest1
 	TEST_CLASS(UnitTest1)
 	{
 	public:
-		TEST_METHOD(TestMethod—onstructorAND—onstructorCopy)
+		TEST_METHOD(TestMethodConstructorANDConstructorCopy)
 		{
-			/*To be honest, I don't really understand how to test the constructor yet, 
-			so far I only thought of creating possible options and, accordingly, 
-			if it doesn't break, it works.*/
 			Set<int> a1; Set<char> b1;
 			Set<int> a2(0); Set<char> b2(0);
 			Set<int> a3(1000); Set<char> b3(1000);
-			/*Set<int> a4(-1); Set<char> b4(-1);-It should give an error when you try to create it, 
-			but so far I haven't found documentation on how to make it count this result as positive.*/
-
-			//In this version of tests, I don't see the point in separating the constructor and the copy constructor.
+			Set<point> a4(1000);
+			
 			Set<int> aa1(a1); Set<char> bb1(b1);
 			Set<int> aa2(a2); Set<char> bb2(b2);
 			Set<int> aa3(a3); Set<char> bb3(b3);
+			Set<point> aa4(a4);
 		}
 		TEST_METHOD(TestMethodInsert)
 		{
-			Set<int> a1; Set<char> b1;
-			const int* iflag; const char* cflag;
-			for(int i = 0; i < 128; i++)//
+			Set<int> a1; Set<char> b1; Set<point> c1;
+			std::set<int> a2; std::set<char> b2; std::set<point> c2;
+			bool fa1, fb1, fc1;
+			bool fa2, fb2, fc2;
+
+			std::pair<const int*, bool> pair_int;
+			std::pair<std::set<int>::iterator, bool> fpit1;
+			
+			std::pair<const char*, bool> pair_char;
+			std::pair<std::set<char>::iterator, bool> fpit2;
+
+			std::pair<const point*, bool> pair_point;
+			std::pair<std::set<point>::iterator, bool> fpit3;
+			point r1;
+
+			for (int i = 0; i < 128; i++)
 			{
+				pair_int = a1.insert(i);
+				fpit1 = a2.insert(i);
+				fa1 = *pair_int.first == *fpit1.first;
+				fa2= pair_int.second == fpit1.second;
+				Assert::AreEqual(true, fa1);
+				Assert::AreEqual(true, fa2);
 
-				iflag = a1.insert(i);
-				Assert::AreEqual(i, *iflag);//here I can compare by value
-				iflag = a1.insert(i);
-				Assert::AreNotEqual(a1.set_begin()+i, iflag);//but here it will be someone else's memory
+				pair_char = b1.insert(i);
+				fpit2 = b2.insert(i);
+				fb1 = *pair_char.first == *fpit2.first;
+				fb2 = pair_char.second == fpit2.second;
+				Assert::AreEqual(true, fb1);
+				Assert::AreEqual(true, fb2);
 
-				cflag = b1.insert(i);
-				Assert::AreEqual(b1.set_begin() + i, cflag);//after 127, insert with char does not quite adequately perceive incoming data 
-				//(the function works correctly, but the value returned to it is a curve), 
-				//which is logical since 128 is already Russian letters. 
-				//Is it an error writing insert or is it supposed to be?
-				cflag = b1.insert(i);
-				Assert::AreNotEqual(b1.set_begin() + i, cflag);
+				r1 = { i,i,i };
+				pair_point = c1.insert(r1);
+				fpit3 = c2.insert(r1);
+				fc1 = *pair_point.first == *fpit3.first;
+				fc2 = pair_point.second == fpit3.second;
+				Assert::AreEqual(true, fc1);
+				Assert::AreEqual(true, fc2);
 			}
-		}
-		TEST_METHOD(TestMethodSet_Begin)
-		{
-			//This is my only idea how to test a single-line method: return array
-			Set<int> a; Set<char> b;
-			const int* iiflag; const char* ciflag;
-			const int* isflag; const char* csflag;
-
-			iiflag = a.insert(1);
-			isflag=a.set_begin();
-			Assert::AreEqual(iiflag, isflag);
-
-			ciflag = b.insert(1);
-			csflag = b.set_begin();
-			Assert::AreEqual(ciflag, csflag);
 		}
 		TEST_METHOD(TestMethodFind_It)
 		{
-			Set<int> a1; Set<char> b1;
-			const int* iiflag; const char* ciflag;
-			const int* ifflag; const char* cfflag;
-			for (int i = 0; i < 127; i++)//
-			{
-				iiflag = a1.insert(i);
-				ifflag = a1.find_it(i);
-				Assert::AreEqual(iiflag, ifflag);
-				ifflag = a1.find_it(i+1);
-				Assert::AreNotEqual(iiflag, ifflag);
-
-				ciflag = b1.insert(i);
-				cfflag = b1.find_it(i);
-				Assert::AreEqual(ciflag, cfflag);
-				cfflag = b1.find_it(i+1);
-				Assert::AreNotEqual(ciflag, cfflag);
-			}
-		}
-		TEST_METHOD(TestMethodErase)
-		{
-			//version 1.0
-			Set<int> a; Set<char> b;
-			bool iflag, cflag;
-			for (int i = 0; i < 128; i++)
-			{
-				a.insert(i);
-				b.insert(i);
-			}
-			const int* istart; const char* cstart;
-			for (int i = 0; i < 128; i++)
-			{
-				istart = a.set_begin();
-				a.erase(istart);
-				Assert::AreEqual(false, a.find(i));
-				
-				cstart = b.set_begin();
-				b.erase(cstart);
-				Assert::AreEqual(false, b.find(i));
-			}
-		}
-		TEST_METHOD(TestMethodSet_Capasity)
-		{
-			Set<int> a; Set<char> b;
-			Set<int> a1(0); Set<char> b1(0);
-			Set<int> a2(1000); Set<char> b2(1000);
-			size_t i1=1, i2=0, i3=1000;
-
-			Assert::AreEqual(i1, a.set_capasity());
-			Assert::AreEqual(i1, b.set_capasity());
-			Assert::AreEqual(i2, a1.set_capasity());
-			Assert::AreEqual(i2, b1.set_capasity());
-			Assert::AreEqual(i3, a2.set_capasity());
-			Assert::AreEqual(i3, b2.set_capasity());
-		}
-		TEST_METHOD(TestMethodSet_Size)
-		{
-			Set<int> a(1000); Set<char> b(1000);
-			size_t i1 = 0,i2=128;
-
-			Assert::AreEqual(i1, a.set_size());
-			Assert::AreEqual(i1, b.set_size());
+			Set<int> a1; Set<char> b1; Set<point> c1;
+			std::set<int> a2; std::set<char> b2; std::set<point> c2;
+			bool fa, fb, fc;
+			point r1;
 
 			for (int i = 0; i < 128; i++)
-			{
-				a.insert(i);
-				b.insert(i);
-			}
-
-			Assert::AreEqual(i2, a.set_size());
-			Assert::AreEqual(i2, b.set_size());
-
-		}
-		TEST_METHOD(TestMethodClear)
-		{
-			Set<int> a1; Set<char> b1;
-			const int* iflag; const char* cflag;
-			iflag = a1.insert(0);
-			cflag = b1.insert(0);
-			for (int i = 1; i < 128; i++)
 			{
 				a1.insert(i);
+				a2.insert(i);
+
 				b1.insert(i);
+				b2.insert(i);
+
+				r1 = { i,i,i };
+				c1.insert(r1);
+				c2.insert(r1);
 			}
 
-			a1.clear();
-			b1.clear();
-
-			size_t i = 0;
-			Assert::AreEqual(i, a1.set_capasity());
-			Assert::AreEqual(i, b1.set_capasity());
-
-			Assert::AreEqual(i, a1.set_size());
-			Assert::AreEqual(i, b1.set_size());
-
-			Assert::AreNotEqual(iflag, a1.set_begin());
-			Assert::AreNotEqual(cflag, b1.set_begin());
-		}
-		TEST_METHOD(TestMethodAssignmentOperator)
-		{
-			Set<int> a(100); Set<char> b(100);
-			Set<int> a1(100); Set<char> b1(100);
-			for (int i = 1; i < 128; i++)
-			{
-				a.insert(i);
-				b.insert(i);
-			}
-
-			a1 = a;
-			b1 = b;
-
-			Assert::AreEqual(a.set_capasity(), a1.set_capasity());
-			Assert::AreEqual(b.set_capasity(), b1.set_capasity());
-
-			Assert::AreEqual(a.set_size(), a1.set_size());
-			Assert::AreEqual(b.set_size(), b1.set_size());
-
-			const int* iflag1; const char* cflag1;
-			const int* iflag2; const char* cflag2;
-			iflag1 = a.set_begin();
-			iflag2 = a1.set_begin();
-			cflag1 = b.set_begin();
-			cflag2 = b1.set_begin();
 			for (int i = 0; i < 128; i++)
 			{
-				Assert::AreEqual(*(iflag1 + i), *(iflag2 + i));
-				Assert::AreEqual(*(cflag1 + i), *(cflag2 + i));
+				fa = *a1.find_it(i) == *a2.find(i);
+				Assert::AreEqual(true, fa);
+
+				fb = *b1.find_it(i) == *b2.find(i);
+				Assert::AreEqual(true, fb);
+
+				r1 = { i,i,i };
+				fc = *c1.find_it(r1) == *c2.find(r1);
+				Assert::AreEqual(true, fc);
 			}
 		}
 		TEST_METHOD(TestMethodFind)
 		{
-			Set<int> a1; Set<char> b1;
-			bool ifflag; bool cfflag;
-			for (int i = 0; i < 127; i++)//
+			Set<int> a1; Set<char> b1; Set<point> c1;
+			bool fa, fb, fc;
+			point r1;
+			for (int i = 0; i < 128; i++)
 			{
 				a1.insert(i);
-				ifflag = a1.find(i);
-				Assert::AreEqual(true, ifflag);
-				ifflag = a1.find(i + 1);
-				Assert::AreEqual(false, ifflag);
 
 				b1.insert(i);
-				cfflag = a1.find(i);
-				Assert::AreEqual(true, cfflag);
-				cfflag = a1.find(i + 1);
-				Assert::AreEqual(false, cfflag);
+	
+				r1 = { i,i,i };
+				c1.insert(r1);
+			}
+			for (int i = 0; i < 128; i++)
+			{
+				fa = a1.find(i);
+				Assert::AreEqual(true, fa);
+
+				fb = b1.find(i);
+				Assert::AreEqual(true, fb);
+
+				r1 = { i,i,i };
+				fc = c1.find(r1);
+				Assert::AreEqual(true, fc);
+			}
+		}
+		TEST_METHOD(TestMethodErase)
+		{
+			Set<int> a1; Set<char> b1; Set<point> c1;
+			std::set<int> a2; std::set<char> b2; std::set<point> c2;
+			bool fa, fb, fc;
+			point r1;
+
+			for (int i = 0; i < 128; i++)
+			{
+				a1.insert(i);
+				a2.insert(i);
+
+				b1.insert(i);
+				b2.insert(i);
+
+				r1 = { i,i,i };
+				c1.insert(r1);
+				c2.insert(r1);
+			}
+
+			for (int i = 0; i < 127; i++)
+			{
+				fa = *a1.erase(a1.set_begin()) == *a2.erase(a2.begin());
+				Assert::AreEqual(true, fa);
+
+				fb= *b1.erase(b1.set_begin()) == *b2.erase(b2.begin());
+				Assert::AreEqual(true, fb);
+
+				fc = *c1.erase(c1.set_begin()) == *c2.erase(c2.begin());
+				Assert::AreEqual(true, fc);
+			}
+		}
+		TEST_METHOD(TestMethodAssignmentOperator)
+		{
+			Set<int> a1; Set<char> b1; Set<point> c1;
+			Set<int> a2; Set<char> b2; Set<point> c2;
+			bool fa, fb, fc;
+			point r1;
+
+			for (int i = 0; i < 128; i++)
+			{
+				a1.insert(i);
 				
+				b1.insert(i);
+				
+				r1 = { i,i,i };
+				c1.insert(r1);
+			}
+
+			a2 = a1;
+			b2 = b1;
+			c2 = c1;
+
+			for (int i = 0; i < 128; i++)
+			{
+				fa = *a2.find_it(i) == *a1.find_it(i);
+				Assert::AreEqual(true, fa);
+
+				fb = *b2.find_it(i) == *b1.find_it(i);
+				Assert::AreEqual(true, fb);
+				
+				r1 = { i,i,i };
+				fc = *c2.find_it(r1) == *c1.find_it(r1);
+				Assert::AreEqual(true, fc);
 			}
 		}
 	};
